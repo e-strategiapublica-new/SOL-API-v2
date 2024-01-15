@@ -34,7 +34,7 @@ export class AssociationRepository {
                 'address.longitude' : dto.address.longitude,
                 'address.complement' : dto.address.complement,
                 'address.referencePoint' : dto.address.referencePoint,
-                'address.number' : dto.address.number,
+                'address.number' : dto.address.number ?? 'S/N',
                 'legalRepresentative.name' : dto.legalRepresentative.name,
                 'legalRepresentative.nationality' : dto.legalRepresentative.nationality,
                 'legalRepresentative.maritalStatus' : dto.legalRepresentative.maritalStatus,
@@ -51,7 +51,7 @@ export class AssociationRepository {
                 'legalRepresentative.address.longitude' : dto.legalRepresentative.address.longitude,
                 'legalRepresentative.address.complement' : dto.legalRepresentative.address.complement,
                 'legalRepresentative.address.referencePoint' : dto.legalRepresentative.address.referencePoint,
-                'legalRepresentative.address.number' : dto.legalRepresentative.address.number
+                'legalRepresentative.address.number' : dto.legalRepresentative.address.number ?? 'S/N'
             }
         });
     }
