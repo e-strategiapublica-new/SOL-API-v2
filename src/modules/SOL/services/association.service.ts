@@ -29,7 +29,7 @@ export class AssociationService {
       // Verifica si la asociación existe
       
       const res = await this._associationModel.getAssociation(dto.name, dto.cnpj)      
-      if(!res){
+      if(res){
         throw new ErrorManager(HttpStatus.BAD_REQUEST, 'The association exists', 1);
       }
            
