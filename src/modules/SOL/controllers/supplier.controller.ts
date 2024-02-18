@@ -76,8 +76,8 @@ export class SupplierController {
                         type: UserTypeEnum.fornecedor,
                         roles: UserRolesEnum.geral,
                         status: UserStatusEnum.active,
-                        association: "",
-                        office: "",
+                        association: null,
+                        office: null,
                         supplier: response._id
                     }
                     response['supplier_user'] = await this.userService.register(dto_user);
