@@ -10,6 +10,10 @@ import { FuncoesGuard } from "src/shared/guards/funcoes.guard";
 import { Funcoes } from "src/shared/decorators/function.decorator";
 import { UserTypeEnum } from "../enums/user-type.enum";
 import { SupplierRegisterBlockRequestDto } from "../dtos/supplier-register-block-request.dt";
+import { UserService } from "../services/user.service";
+import { UserRegisterRequestDto } from "../dtos/user-register-request.dto";
+import { UserRolesEnum } from "../enums/user-roles.enum";
+import { UserStatusEnum } from "../enums/user-status.enum";
 
 @ApiTags('supplier')
 @Controller('supplier')
@@ -19,6 +23,7 @@ export class SupplierController {
 
     constructor(
         private readonly supplierService: SupplierService,
+        private readonly userService: UserService,
     ) { }
 
     @Post('register')
@@ -53,16 +58,37 @@ export class SupplierController {
     }
 
     @Post('registerWithoutAuth')
-    @HttpCode(201)    
+    @HttpCode(201)
     async registerWithoutAuth(
-
         @Body() dto: SupplierRegisterDto,
     ) {
-
         try {
+            let response = await this.supplierService.register(dto);
 
+            if (dto.legal_representative.email && dto.legal_representative.phone) {
 
-            const response = await this.supplierService.register(dto);
+                try {
+                    const dto_user: UserRegisterRequestDto = {
+                        name: dto.legal_representative.name,
+                        phone: dto.legal_representative.phone,
+                        email: dto.legal_representative.email,
+                        document: dto.legal_representative.cpf,
+                        type: UserTypeEnum.fornecedor,
+                        roles: UserRolesEnum.geral,
+                        status: UserStatusEnum.active,
+                        association: "",
+                        office: "",
+                    }
+                    response['supplier_user'] = await this.userService.register(dto_user);
+                } catch (error) {
+                    this.logger.error(error.message);
+
+                    throw new HttpException(
+                        new ResponseDto(false, null, [error.message]),
+                        HttpStatus.BAD_REQUEST,
+                    );
+                }
+            }
 
             return new ResponseDto(
                 true,
@@ -109,7 +135,7 @@ export class SupplierController {
     }
 
     @Get('listWithoutAuth')
-    @HttpCode(200)    
+    @HttpCode(200)
     async listWithoutAuth() {
 
         try {

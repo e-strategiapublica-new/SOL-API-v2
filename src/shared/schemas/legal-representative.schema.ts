@@ -21,6 +21,12 @@ export class LegalRepresentative {
     rg: string;
     
     @Prop({ type: String, required: false })
+    email: string;
+    
+    @Prop({ type: String, required: false })
+    phone: string;
+    
+    @Prop({ type: String, required: false })
     document_origin: string;
 
     @Prop({ type: Date, required: false })
