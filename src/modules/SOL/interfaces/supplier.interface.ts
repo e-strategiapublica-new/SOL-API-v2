@@ -7,7 +7,6 @@ import { CategoryModel } from "../models/category.model";
 import { Category } from "../schemas/category.schema";
 
 export interface SupplierInterface {
-    readonly _id: string;
     readonly name: string;
     readonly cpf: string;
     readonly blocked: boolean;
