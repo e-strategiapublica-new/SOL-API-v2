@@ -78,6 +78,7 @@ export class SupplierController {
                         status: UserStatusEnum.active,
                         association: "",
                         office: "",
+                        supplier: response._id
                     }
                     response['supplier_user'] = await this.userService.register(dto_user);
                 } catch (error) {
